@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { BookCondition } from './book-condition.enum';
-import { BookGenres } from '../genres/genres.entity';
+import { Genres } from '../genres/genres.entity';
 import { Language } from '../languages/langueges.entity';
 import { Users } from '../users/users.entity';
 import { Category } from '../category/category.entity';
@@ -30,8 +30,8 @@ export class Books {
   @Column({ type: 'enum', enum: BookCondition, default: BookCondition.NEW })
   condition: BookCondition;
 
-  @Column({ type: 'bytea' })
-  cover_image: Buffer;
+  @Column({ name: 'cover_image', type: 'bytea' })
+  coverImage: string;
 
   @Column({ type: 'boolean', default: true })
   availability: boolean;
@@ -43,8 +43,8 @@ export class Books {
   @JoinTable()
   categories: Category[];
 
-  @ManyToOne(() => BookGenres, (genre) => genre.books)
-  genre: BookGenres;
+  @ManyToOne(() => Genres, (genre) => genre.books)
+  genre: Genres;
 
   @ManyToOne(() => Language, (language) => language.books)
   language: Language;
