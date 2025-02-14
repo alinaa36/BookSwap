@@ -13,8 +13,9 @@ import { Language } from '../languages/langueges.entity';
 import { Users } from '../users/users.entity';
 import { Category } from '../category/category.entity';
 
-@Entity()
+@Entity({ name: 'books' })
 export class Books {
+  // change
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -30,14 +31,14 @@ export class Books {
   @Column({ type: 'enum', enum: BookCondition, default: BookCondition.NEW })
   condition: BookCondition;
 
-  @Column({ name: 'cover_image', type: 'bytea' })
+  @Column({ name: 'cover_image', type: 'bytea', nullable: true })
   coverImage: string;
 
   @Column({ type: 'boolean', default: true })
   availability: boolean;
 
   @CreateDateColumn()
-  createdDate: Date;
+  createdDate: Date; //createdAt
 
   @ManyToMany(() => Category, (category) => category.books)
   @JoinTable()

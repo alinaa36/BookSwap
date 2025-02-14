@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -9,20 +8,25 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  Request,
+  UseGuards,
+  Query,
 } from '@nestjs/common';
 import { BookService } from './books.servise';
 import { CreateBookDTO } from './dto/create-books.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { UpdateBookDTO } from './dto/update-books.dto';
+import { AuthGuard } from '../auth/auth/guard/auth.guard';
+import { QueryBooksDTO } from './dto/query-book.dto';
 
 @Controller('books')
 export class BooksController {
   constructor(private readonly bookServise: BookService) {}
 
   @Get()
-  async getAll() {
-    return await this.bookServise.findAll();
+  async getAll(@Query() queryBooksDTO: QueryBooksDTO) {
+    return await this.bookServise.findAll(queryBooksDTO);
   }
 
   @Get(':id')
@@ -31,6 +35,7 @@ export class BooksController {
   }
 
   @Post()
+  @UseGuards(AuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -43,16 +48,17 @@ export class BooksController {
   )
   async create(
     @Body() book: CreateBookDTO,
+    @Request() req,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    if (!file) {
-      throw new BadRequestException('File not uploaded');
-    }
+    console.log(req.user);
+    const userId = req.user.sub;
 
-    return await this.bookServise.create(book, file.path);
+    return await this.bookServise.create(book, file ? file.path : null, userId);
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({

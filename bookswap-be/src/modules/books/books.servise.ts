@@ -3,22 +3,36 @@ import { BooksRepository } from './books.repository';
 import { Books } from './books.entity';
 import { CreateBookDTO } from './dto/create-books.dto';
 import { UpdateBookDTO } from './dto/update-books.dto';
+import { UserService } from '../users/user.service';
+import { QueryBooksDTO } from './dto/query-book.dto';
 
 @Injectable()
 export class BookService {
-  constructor(private readonly bookRepository: BooksRepository) {}
+  constructor(
+    private readonly bookRepository: BooksRepository,
+    private readonly userService: UserService,
+  ) {}
 
-  async findAll(): Promise<Books[]> {
-    return await this.bookRepository.findAll();
+  async findAll(queryBooksDTO: QueryBooksDTO): Promise<Books[]> {
+    return await this.bookRepository.findAll(queryBooksDTO);
   }
 
-  async create(book: CreateBookDTO, imagePath: string): Promise<Books> {
-    const imageBuffer =
-      'http://localhost:3000/' + imagePath.replace(/\\/g, '/');
+  async create(
+    book: CreateBookDTO,
+    imagePath: string,
+    userId: number,
+  ): Promise<Books> {
+    if (imagePath) {
+      const imageBuffer =
+        'http://localhost:3000/' + imagePath.replace(/\\/g, '/');
+      book.coverImage = imageBuffer;
+    }
+
+    const user = await this.userService.findById(userId);
 
     const createdBook = await this.bookRepository.store({
       ...book,
-      coverImage: imageBuffer,
+      owner: user,
     });
 
     return createdBook;

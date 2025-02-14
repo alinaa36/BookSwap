@@ -1,4 +1,4 @@
-import { IsBoolean, IsEnum, IsString } from 'class-validator';
+import { IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator';
 import { Category } from '../../category/category.entity';
 import { Genres } from '../../genres/genres.entity';
 import { Language } from '../../languages/langueges.entity';
@@ -19,6 +19,7 @@ export class CreateBookDTO {
   condition: BookCondition;
 
   @IsString()
+  @IsOptional()
   coverImage: string;
 
   @IsBoolean()

@@ -20,9 +20,9 @@ export class Users {
   password: string;
 
   @Column({ type: 'bytea', nullable: true })
-  photo: Buffer;
+  photo: string;
 
-  @Column()
+  @Column({ nullable: true })
   phone: string;
 
   @Column({ nullable: true })
