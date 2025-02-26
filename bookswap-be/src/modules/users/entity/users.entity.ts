@@ -1,12 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Books } from '../books/books.entity';
-import { Exchanges } from '../exchanges/exchanges.entity';
+import { Entity, Column, OneToMany } from 'typeorm';
+import { Book } from '../../books/entity/books.entity';
+import { Exchanges } from '../../exchanges/entity/exchanges.entity';
+import { BaseEntity } from '../../base/bese-entity';
 
-@Entity()
-export class Users {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+@Entity('users')
+export class User extends BaseEntity {
   @Column()
   name: string;
 
@@ -20,9 +18,9 @@ export class Users {
   password: string;
 
   @Column({ type: 'bytea', nullable: true })
-  photo: Buffer;
+  photo: string;
 
-  @Column()
+  @Column({ nullable: true })
   phone: string;
 
   @Column({ nullable: true })
@@ -31,8 +29,8 @@ export class Users {
   @Column({ nullable: true })
   desire: string;
 
-  @OneToMany(() => Books, (book) => book.owner)
-  books: Books[];
+  @OneToMany(() => Book, (book) => book.owner)
+  books: Book[];
 
   @OneToMany(() => Exchanges, (exchange) => exchange.offeringUser)
   exchanges1: Exchanges[];

@@ -1,9 +1,16 @@
-import { IsBoolean, IsEnum, IsOptional, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsEnum,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { Category } from '../../category/category.entity';
 import { Genres } from '../../genres/genres.entity';
 import { Language } from '../../languages/langueges.entity';
-import { Users } from '../../users/users.entity';
-import { BookCondition } from '../book-condition.enum';
+import { User } from '../../users/entity/users.entity';
+import { BookCondition } from '../enums/book-condition.enum';
+import { Transform, Type } from 'class-transformer';
 
 export class UpdateBookDTO {
   @IsString()
@@ -26,23 +33,25 @@ export class UpdateBookDTO {
   @IsOptional()
   coverImage: string;
 
-  @IsBoolean()
   @IsOptional()
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true')
   availability: boolean;
 
-  @IsString()
   @IsOptional()
+  @IsArray()
+  @Type(() => Category)
   categories: Category[];
 
-  @IsString()
   @IsOptional()
+  @Type(() => Genres)
   genre: Genres;
 
-  @IsString()
   @IsOptional()
+  @Type(() => Language)
   language: Language;
 
-  @IsString()
   @IsOptional()
-  owner: Users;
+  @Type(() => User)
+  owner: User;
 }
