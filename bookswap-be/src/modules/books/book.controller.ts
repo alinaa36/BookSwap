@@ -25,8 +25,13 @@ export class BooksController {
   constructor(private readonly bookServise: BookService) {}
 
   @Get()
-  async getAll(@Query() queryBooksDTO: QueryBooksDTO) {
+  async getQuery(@Query() queryBooksDTO: QueryBooksDTO) {
     return await this.bookServise.findAll(queryBooksDTO);
+  }
+
+  @Get()
+  async getAll() {
+    return await this.bookServise.getAll();
   }
 
   @Get(':id')
@@ -52,6 +57,7 @@ export class BooksController {
     @UploadedFile() file: Express.Multer.File,
   ) {
     console.log(req.user);
+    console.log(book);
     const userId = req.user.sub;
 
     return await this.bookServise.create(book, file ? file.path : null, userId);

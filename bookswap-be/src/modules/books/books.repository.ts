@@ -1,23 +1,18 @@
 import { Repository } from 'typeorm';
-import { Books } from './books.entity';
+import { Book } from './entity/books.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateBookDTO } from './dto/create-books.dto';
-import { UpdateBookDTO } from './dto/update-books.dto';
+import { BaseRepository } from 'src/modules/base/repository';
 import { QueryBooksDTO } from './dto/query-book.dto';
 
-export class BooksRepository extends Repository<Books> {
+export class BooksRepository extends BaseRepository<Book> {
   constructor(
-    @InjectRepository(Books)
-    private booksRepository: Repository<Books>,
+    @InjectRepository(Book)
+    private booksRepository: Repository<Book>,
   ) {
-    super(
-      booksRepository.target,
-      booksRepository.manager,
-      booksRepository.queryRunner,
-    );
+    super(booksRepository);
   }
 
-  public async findAll(query: QueryBooksDTO) {
+  public async findQuery(query: QueryBooksDTO) {
     const whereOptions = Object.assign(
       {},
       query.title && { title: query.title },
@@ -31,28 +26,5 @@ export class BooksRepository extends Repository<Books> {
     );
 
     return await this.find({ where: whereOptions });
-  }
-
-  public async store(book: CreateBookDTO): Promise<Books> {
-    const newBook = this.create(book);
-    return await this.save(newBook);
-  }
-
-  public async findById(id: number): Promise<Books> {
-    return this.findOne({ where: { id } });
-  }
-
-  async updateById(
-    id: number,
-    bookDTO: UpdateBookDTO,
-  ): Promise<Books | undefined> {
-    const book = await this.findOne({ where: { id } });
-    if (!book) return undefined;
-    Object.assign(book, bookDTO);
-    return this.save(book);
-  }
-
-  async destroy(id: number) {
-    return this.delete(id);
   }
 }

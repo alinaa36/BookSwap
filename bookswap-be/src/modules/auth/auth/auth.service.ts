@@ -3,18 +3,23 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDTO } from 'src/modules/users/dto/create-users.dto';
 import { UserService } from 'src/modules/users/user.service';
 import * as bcrypt from 'bcrypt';
+import { AppConfigService } from 'src/config/app-config.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private userServise: UserService,
     private jwtServise: JwtService,
+    private configService: AppConfigService,
   ) {}
 
-  private readonly saltRounds = 10;
+  private readonly saltRaunds = parseInt(
+    this.configService.get<string>('saltRounds'),
+    10,
+  );
 
-  async hashPassword(password: string): Promise<string> {
-    return await bcrypt.hash(password, this.saltRounds);
+  private async hashPassword(password: string): Promise<string> {
+    return await bcrypt.hash(password, this.saltRaunds);
   }
 
   async comparePasswords(
@@ -31,24 +36,24 @@ export class AuthService {
       sub: user.id,
       email: user.email,
     });
-    return { user, access_token: token };
+    return { access_token: token };
   }
 
   async signIn(email: string, pass: string) {
     const user = await this.userServise.findByEmail(email);
     if (!user) {
-      throw new UnauthorizedException('Користувача не знайдено');
+      throw new UnauthorizedException('User not found');
     }
 
     user.password = await this.hashPassword(user.password);
     const isPasswordValid = await bcrypt.compare(pass, user.password);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Невірний пароль');
+      throw new UnauthorizedException('Invalid password');
     }
 
     const payload = { sub: user.id, email: user.email };
     const token = await this.jwtServise.signAsync(payload);
 
-    return { user, access_token: token };
+    return { access_token: token };
   }
 }

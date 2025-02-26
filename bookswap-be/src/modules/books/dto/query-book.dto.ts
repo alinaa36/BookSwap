@@ -1,5 +1,5 @@
 import { IsEnum, IsOptional } from 'class-validator';
-import { BookCondition } from '../book-condition.enum';
+import { BookCondition } from '../enums/book-condition.enum';
 
 export class QueryBooksDTO {
   @IsOptional()

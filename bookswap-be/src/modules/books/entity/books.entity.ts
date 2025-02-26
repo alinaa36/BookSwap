@@ -1,23 +1,14 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { BookCondition } from './book-condition.enum';
-import { Genres } from '../genres/genres.entity';
-import { Language } from '../languages/langueges.entity';
-import { Users } from '../users/users.entity';
-import { Category } from '../category/category.entity';
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import { BookCondition } from '../enums/book-condition.enum';
+import { Genres } from '../../genres/genres.entity';
+import { Language } from '../../languages/langueges.entity';
+import { User } from '../../users/entity/users.entity';
+import { Category } from '../../category/category.entity';
+import { BaseEntity } from 'src/modules/base/bese-entity';
 
 @Entity({ name: 'books' })
-export class Books {
+export class Book extends BaseEntity {
   // change
-  @PrimaryGeneratedColumn()
-  id: number;
 
   @Column({ nullable: false })
   title: string;
@@ -37,9 +28,6 @@ export class Books {
   @Column({ type: 'boolean', default: true })
   availability: boolean;
 
-  @CreateDateColumn()
-  createdDate: Date; //createdAt
-
   @ManyToMany(() => Category, (category) => category.books)
   @JoinTable()
   categories: Category[];
@@ -50,6 +38,6 @@ export class Books {
   @ManyToOne(() => Language, (language) => language.books)
   language: Language;
 
-  @ManyToOne(() => Users, (users) => users.books)
-  owner: Users;
+  @ManyToOne(() => User, (users) => users.books)
+  owner: User;
 }

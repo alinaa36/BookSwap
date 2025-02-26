@@ -9,11 +9,15 @@ export class UserService {
   constructor(private userRepository: UserRepository) {}
 
   async create(user: CreateUserDTO) {
-    return await this.userRepository.store(user);
+    return await this.userRepository.createEntity(user);
   }
 
-  async getAll(query: QueryUSerDTO) {
+  async getQuery(query: QueryUSerDTO) {
     return await this.userRepository.getAll(query);
+  }
+
+  async getAll() {
+    return await this.userRepository.findAll();
   }
 
   async findByEmail(email: string) {
@@ -26,6 +30,10 @@ export class UserService {
 
   async update(id: number, userDTO: UpdateUserDTO) {
     await this.findById(id);
-    return this.userRepository.updateUser(id, userDTO);
+    return this.userRepository.updateEntity(id, userDTO);
+  }
+
+  async remove(id: number) {
+    return this.userRepository.destroy(id);
   }
 }

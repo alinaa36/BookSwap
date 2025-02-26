@@ -2,14 +2,14 @@ import {
   Body,
   Controller,
   Patch,
-  Post,
   UseGuards,
   Request,
   Get,
   Query,
+  Param,
+  Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDTO } from './dto/create-users.dto';
 import { AuthGuard } from '../auth/auth/guard/auth.guard';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { QueryUSerDTO } from './dto/query-users.dto';
@@ -19,13 +19,13 @@ export class UserController {
   constructor(private userServise: UserService) {}
 
   @Get()
-  async getAll(@Query() query: QueryUSerDTO) {
-    return await this.userServise.getAll(query);
+  async getAll() {
+    return await this.userServise.getAll();
   }
 
-  @Post()
-  async create(@Body() createUser: CreateUserDTO) {
-    return this.userServise.create(createUser);
+  @Get()
+  async getQuery(@Query() query: QueryUSerDTO) {
+    return await this.userServise.getQuery(query);
   }
 
   @Patch()
@@ -33,5 +33,10 @@ export class UserController {
   async update(@Body() user: UpdateUserDTO, @Request() req) {
     const userId = req.user.sub;
     return await this.userServise.update(userId, user);
+  }
+
+  @Delete()
+  async remove(@Param() id: number) {
+    return this.userServise.remove(id);
   }
 }
