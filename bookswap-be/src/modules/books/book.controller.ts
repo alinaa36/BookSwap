@@ -78,9 +78,16 @@ export class BooksController {
   async updateById(
     @Param('id') id: number,
     @Body() book: UpdateBookDTO,
+    @Request() req,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    return await this.bookServise.update(id, book, file ? file.path : null);
+    const userId = req.user.sub;
+    return await this.bookServise.update(
+      id,
+      book,
+      file ? file.path : null,
+      userId,
+    );
   }
 
   @Delete(':id')

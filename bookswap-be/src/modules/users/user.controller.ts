@@ -28,9 +28,14 @@ export class UserController {
     return await this.userServise.getQuery(query);
   }
 
+  @Get(':id/exchanges')
+  async getExchanges(@Param('id') id: number) {
+    return await this.userServise.findExchange(id);
+  }
+
   @Patch()
   @UseGuards(AuthGuard)
-  async update(@Body() user: UpdateUserDTO, @Request() req) {
+  async update(@Body() user: UpdateUserDTO, @Request() req: any) {
     const userId = req.user.sub;
     return await this.userServise.update(userId, user);
   }

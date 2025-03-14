@@ -30,11 +30,11 @@ export class User extends BaseEntity {
   desire: string;
 
   @OneToMany(() => Book, (book) => book.owner)
-  books: Book[];
+  books?: Book[];
 
-  @OneToMany(() => Exchanges, (exchange) => exchange.offeringUser)
-  exchanges1: Exchanges[];
+  @OneToMany(() => Exchanges, (exchange) => exchange.requester)
+  requestedExchanges?: Exchanges[];
 
-  @OneToMany(() => Exchanges, (exchange) => exchange.requestingUser)
-  exchanges2: Exchanges[];
+  @OneToMany(() => Exchanges, (exchange) => exchange.receiver)
+  receivedExchanges?: Exchanges[];
 }

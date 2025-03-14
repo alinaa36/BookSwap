@@ -21,6 +21,14 @@ export class UserRepository extends BaseRepository<User> {
     return await this.find({ where: whereOptions });
   }
 
+  public async getExchange(id: number) {
+    const user = await this.findOne({
+      where: { id },
+      relations: ['receivedExchanges'],
+    });
+    return user.receivedExchanges;
+  }
+
   public async findByEmail(email: string) {
     return await this.findOne({ where: { email } });
   }

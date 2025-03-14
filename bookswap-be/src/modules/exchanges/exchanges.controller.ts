@@ -1,7 +1,15 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  Patch,
+  Param,
+} from '@nestjs/common';
+import { ExchangesService } from './exchanges.service';
 import { AuthGuard } from '../auth/auth/guard/auth.guard';
 import { CreateExchangeDTO } from './dto/create-exchange.dto';
-import { ExchangesService } from './exchanges.service';
 
 @Controller('exchange')
 export class ExchangesController {
@@ -12,6 +20,19 @@ export class ExchangesController {
     const userId = req.user.sub;
     console.log(req.user);
     console.log(exchangeDTO);
-    return this.exchangeService.create(exchangeDTO, userId);
+    return this.exchangeService.pendingExchange(exchangeDTO, userId);
+  }
+
+  @Patch(':id')
+  @UseGuards(AuthGuard)
+  async update(
+    @Param('id') id: number,
+    @Body() exchangeDTO: CreateExchangeDTO,
+    @Request() req,
+  ) {
+    const userId = req.user.sub;
+    console.log(req.user);
+    console.log(exchangeDTO);
+    return this.exchangeService.completedexchange(exchangeDTO, userId, id);
   }
 }

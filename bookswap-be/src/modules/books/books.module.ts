@@ -6,11 +6,19 @@ import { Book } from './entity/books.entity';
 import { BooksRepository } from './books.repository';
 import { UserModule } from '../users/user.module';
 import { JwtConfigModule } from 'src/config/jwt-config.module';
+import { AppConfigModule } from 'src/config/app-config.module';
+import { CategoryModule } from '../category/category.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Book]), JwtConfigModule, UserModule],
+  imports: [
+    TypeOrmModule.forFeature([Book]),
+    JwtConfigModule,
+    UserModule,
+    AppConfigModule,
+    CategoryModule,
+  ],
   controllers: [BooksController],
   providers: [BookService, BooksRepository],
-  exports: [BookService],
+  exports: [BookService, BooksRepository],
 })
 export class BooksModule {}

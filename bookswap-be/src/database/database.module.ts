@@ -7,6 +7,7 @@ import { Genres } from '../modules/genres/genres.entity';
 import { Language } from '../modules/languages/langueges.entity';
 import { Category } from '../modules/category/category.entity';
 import * as dotenv from 'dotenv';
+import { ExchangesItem } from 'src/modules/exchangesItem/exchanges-item.entity';
 
 dotenv.config();
 
@@ -19,7 +20,15 @@ dotenv.config();
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      entities: [User, Book, Exchanges, Genres, Language, Category],
+      entities: [
+        User,
+        Book,
+        Exchanges,
+        Genres,
+        Language,
+        Category,
+        ExchangesItem,
+      ],
       synchronize: false,
     }),
   ],
