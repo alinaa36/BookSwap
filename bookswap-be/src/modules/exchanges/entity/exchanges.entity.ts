@@ -1,26 +1,16 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Book } from '../../books/entity/books.entity';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../../users/entity/users.entity';
 import { statusExchange } from '../enum/status-exchange.enum';
 import { BaseEntity } from '../../base/bese-entity';
+import { ExchangesItem } from 'src/modules/exchangesItem/exchanges-item.entity';
 
 @Entity()
 export class Exchanges extends BaseEntity {
-  @ManyToOne(() => Book)
-  @JoinColumn({ name: 'offeredBook' })
-  offeredBook: Book;
+  @ManyToOne(() => User, (user) => user.requestedExchanges)
+  requester: User;
 
-  @ManyToOne(() => Book)
-  @JoinColumn({ name: 'requestedBook' })
-  requestBook: Book;
-
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'offeringUser' })
-  offeringUser: User;
-
-  @ManyToOne(() => User)
-  @JoinColumn({ name: 'requestingUser' })
-  requestingUser: User;
+  @ManyToOne(() => User, (user) => user.receivedExchanges)
+  receiver: User;
 
   @Column({
     type: 'enum',
@@ -28,4 +18,9 @@ export class Exchanges extends BaseEntity {
     default: statusExchange.PENDING,
   })
   status: statusExchange;
+
+  @OneToMany(() => ExchangesItem, (exchangesItem) => exchangesItem.exchange, {
+    cascade: true,
+  })
+  item: ExchangesItem[];
 }

@@ -33,6 +33,10 @@ export class UserService {
     return this.userRepository.updateEntity(id, userDTO);
   }
 
+  async findExchange(id: number) {
+    return await this.userRepository.getExchange(id);
+  }
+
   async remove(id: number) {
     return this.userRepository.destroy(id);
   }

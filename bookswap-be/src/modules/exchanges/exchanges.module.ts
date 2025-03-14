@@ -5,19 +5,17 @@ import { Exchanges } from './entity/exchanges.entity';
 import { ExchangesController } from './exchanges.controller';
 import { ExchangesService } from './exchanges.service';
 import { ExchangesRepository } from './exchanges.repository';
-import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from '../auth/auth/constans/constans';
 import { BooksModule } from '../books/books.module';
+import { ExchangesItemModule } from '../exchangesItem/exchanges-item.module';
+import { JwtConfigModule } from 'src/config/jwt-config.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Exchanges]),
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1d' },
-    }),
+    JwtConfigModule,
     UserModule,
     BooksModule,
+    ExchangesItemModule,
   ],
   controllers: [ExchangesController],
   providers: [ExchangesService, ExchangesRepository],
