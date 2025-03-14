@@ -1,14 +1,14 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Books } from '../books/books.entity';
+import { Book } from '../books/entity/books.entity';
 
 @Entity()
-export class BookGenres {
+export class Genres {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   name: string;
 
-  @OneToMany(() => Books, (book) => book.genre)
-  books: Books[];
+  @OneToMany(() => Book, (book) => book.genre)
+  books: Book[];
 }

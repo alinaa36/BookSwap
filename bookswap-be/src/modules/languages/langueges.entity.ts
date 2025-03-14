@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Books } from '../books/books.entity';
+import { Book } from '../books/entity/books.entity';
 
 @Entity()
 export class Language {
@@ -9,6 +9,6 @@ export class Language {
   @Column()
   name: string;
 
-  @OneToMany(() => Books, (book) => book.language)
-  books: Books[];
+  @OneToMany(() => Book, (book) => book.language)
+  books: Book[];
 }
