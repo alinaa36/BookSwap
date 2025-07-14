@@ -7,7 +7,7 @@ import { ExchangesService } from './exchanges.service';
 import { ExchangesRepository } from './exchanges.repository';
 import { BooksModule } from '../books/books.module';
 import { ExchangesItemModule } from '../exchangesItem/exchanges-item.module';
-import { JwtConfigModule } from 'src/config/jwt-config.module';
+import { JwtConfigModule } from '../../config/jwt-config/jwt-config.module';
 
 @Module({
   imports: [

@@ -29,7 +29,6 @@ export class UpdateBookDTO {
   @IsOptional()
   condition: BookCondition;
 
-  @IsString()
   @IsOptional()
   coverImage: string;
 

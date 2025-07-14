@@ -1,5 +1,5 @@
 import { Entity, ManyToOne } from 'typeorm';
-import { BaseEntity } from '../base/bese-entity';
+import { BaseEntity } from '../common/entity';
 import { Exchanges } from '../exchanges/entity/exchanges.entity';
 import { Book } from '../books/entity/books.entity';
 

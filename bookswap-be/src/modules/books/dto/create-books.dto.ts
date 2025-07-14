@@ -25,7 +25,6 @@ export class CreateBookDTO {
   @IsEnum(BookCondition)
   condition: BookCondition;
 
-  @IsString()
   @IsOptional()
   coverImage: string;
 

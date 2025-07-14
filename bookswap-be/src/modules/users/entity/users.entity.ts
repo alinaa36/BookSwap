@@ -1,7 +1,8 @@
 import { Entity, Column, OneToMany } from 'typeorm';
 import { Book } from '../../books/entity/books.entity';
 import { Exchanges } from '../../exchanges/entity/exchanges.entity';
-import { BaseEntity } from '../../base/bese-entity';
+import { BaseEntity } from '../../common/entity';
+import { ReviewBook } from '../../../modules/review-book/entity/review-book.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -37,4 +38,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Exchanges, (exchange) => exchange.receiver)
   receivedExchanges?: Exchanges[];
+
+  @OneToMany(() => ReviewBook, (reviewBook) => reviewBook.reviewer)
+  reviews: ReviewBook[];
 }

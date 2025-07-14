@@ -10,7 +10,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { AuthGuard } from '../auth/auth/guard/auth.guard';
+import { AuthGuard } from '../auth/guard/auth.guard';
 import { UpdateUserDTO } from './dto/update-user.dto';
 import { QueryUSerDTO } from './dto/query-users.dto';
 

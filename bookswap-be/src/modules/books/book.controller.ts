@@ -17,7 +17,7 @@ import { CreateBookDTO } from './dto/create-books.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { UpdateBookDTO } from './dto/update-books.dto';
-import { AuthGuard } from '../auth/auth/guard/auth.guard';
+import { AuthGuard } from '../auth/guard/auth.guard';
 import { QueryBooksDTO } from './dto/query-book.dto';
 
 @Controller('books')

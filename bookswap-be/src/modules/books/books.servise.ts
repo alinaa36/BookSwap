@@ -10,7 +10,7 @@ import { UpdateBookDTO } from './dto/update-books.dto';
 import { UserService } from '../users/user.service';
 import { QueryBooksDTO } from './dto/query-book.dto';
 import { User } from '../users/entity/users.entity';
-import { AppConfigService } from 'src/config/app-config.service';
+import { AppConfigService } from '../../config/app-config/app-config.service';
 import { EntityManager, In } from 'typeorm';
 import { CategoryRepository } from '../category/category.repository';
 
@@ -67,7 +67,6 @@ export class BookService {
       return createdBook;
     }
   }
-
   async findById(id: number): Promise<Book> {
     const book = await this.bookRepository.findOne({ where: { id } });
     if (!book) {

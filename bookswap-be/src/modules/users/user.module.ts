@@ -4,7 +4,7 @@ import { UserRepository } from './users.repository';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { Module } from '@nestjs/common';
-import { JwtConfigModule } from 'src/config/jwt-config.module';
+import { JwtConfigModule } from '../../config/jwt-config/jwt-config.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), JwtConfigModule],

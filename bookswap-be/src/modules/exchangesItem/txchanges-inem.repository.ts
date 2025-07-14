@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { BaseRepository } from '../base/repository';
+import { BaseRepository } from '../common/repository';
 import { ExchangesItem } from './exchanges-item.entity';
 import { Repository } from 'typeorm';
 

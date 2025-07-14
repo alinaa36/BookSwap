@@ -1,15 +1,21 @@
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { BookCondition } from '../enums/book-condition.enum';
 import { Genres } from '../../genres/genres.entity';
 import { Language } from '../../languages/langueges.entity';
 import { User } from '../../users/entity/users.entity';
 import { Category } from '../../category/category.entity';
-import { BaseEntity } from 'src/modules/base/bese-entity';
+import { BaseEntity } from '../../../modules/common/entity';
+import { ReviewBook } from '../../../modules/review-book/entity/review-book.entity';
 
 @Entity({ name: 'books' })
 export class Book extends BaseEntity {
-  // change
-
   @Column({ nullable: false })
   title: string;
 
@@ -22,11 +28,17 @@ export class Book extends BaseEntity {
   @Column({ type: 'enum', enum: BookCondition, default: BookCondition.NEW })
   condition: BookCondition;
 
-  @Column({ name: 'cover_image', type: 'bytea', nullable: true })
+  @Column({ name: 'cover_image', nullable: true })
   coverImage: string;
 
   @Column({ type: 'boolean', default: true })
   availability: boolean;
+
+  @Column({ type: 'decimal', precision: 3, scale: 2, default: 0 })
+  averageRating: number;
+
+  @Column({ default: 0 })
+  reviewCount: number;
 
   @ManyToMany(() => Category, (category) => category.books)
   @JoinTable()
@@ -40,4 +52,7 @@ export class Book extends BaseEntity {
 
   @ManyToOne(() => User, (users) => users.books)
   owner: User;
+
+  @OneToMany(() => ReviewBook, (reviewBook) => reviewBook.book)
+  reviews: ReviewBook[];
 }

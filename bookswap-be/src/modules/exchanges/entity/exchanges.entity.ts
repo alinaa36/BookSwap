@@ -1,8 +1,8 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../../users/entity/users.entity';
 import { statusExchange } from '../enum/status-exchange.enum';
-import { BaseEntity } from '../../base/bese-entity';
-import { ExchangesItem } from 'src/modules/exchangesItem/exchanges-item.entity';
+import { BaseEntity } from '../../common/entity';
+import { ExchangesItem } from '../../../modules/exchangesItem/exchanges-item.entity';
 
 @Entity()
 export class Exchanges extends BaseEntity {
