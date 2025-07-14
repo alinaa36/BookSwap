@@ -1,7 +1,7 @@
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Book } from './entity/books.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BaseRepository } from 'src/modules/base/repository';
+import { BaseRepository } from '../../modules/common/repository';
 import { QueryBooksDTO } from './dto/query-book.dto';
 
 export class BooksRepository extends BaseRepository<Book> {
@@ -15,7 +15,7 @@ export class BooksRepository extends BaseRepository<Book> {
   public async findQuery(query: QueryBooksDTO) {
     const whereOptions = Object.assign(
       {},
-      query.title && { title: query.title },
+      query.title && { title: ILike(`%${query.title}%`) },
       query.author && { author: query.author },
       query.condition && { condition: query.condition },
       query.availability && { availability: query.availability },

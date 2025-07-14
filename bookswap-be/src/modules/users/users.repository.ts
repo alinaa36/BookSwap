@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import { User } from './entity/users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { QueryUSerDTO } from './dto/query-users.dto';
-import { BaseRepository } from 'src/modules/base/repository';
+import { BaseRepository } from '../../modules/common/repository';
 
 export class UserRepository extends BaseRepository<User> {
   constructor(

@@ -8,7 +8,7 @@ import {
   Param,
 } from '@nestjs/common';
 import { ExchangesService } from './exchanges.service';
-import { AuthGuard } from '../auth/auth/guard/auth.guard';
+import { AuthGuard } from '../auth/guard/auth.guard';
 import { CreateExchangeDTO } from './dto/create-exchange.dto';
 
 @Controller('exchange')

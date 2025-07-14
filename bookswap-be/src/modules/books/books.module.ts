@@ -5,8 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Book } from './entity/books.entity';
 import { BooksRepository } from './books.repository';
 import { UserModule } from '../users/user.module';
-import { JwtConfigModule } from 'src/config/jwt-config.module';
-import { AppConfigModule } from 'src/config/app-config.module';
+import { JwtConfigModule } from '../../config/jwt-config/jwt-config.module';
+import { AppConfigModule } from '../../config/app-config/app-config.module';
 import { CategoryModule } from '../category/category.module';
 
 @Module({
