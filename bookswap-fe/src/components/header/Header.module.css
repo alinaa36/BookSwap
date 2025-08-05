@@ -1,0 +1,49 @@
+.header {
+  display: flex;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  text-align: center;
+  justify-content: space-between;
+  background: rgba(15, 20, 25, 0.8);
+  width: 98%;
+  height: auto;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid rgba(192, 192, 192, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.logoContainer,
+.titleContainer,
+.iconContainer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.logoContainer {
+  justify-content: flex-start;
+}
+
+.titleContainer {
+  justify-content: center;
+}
+
+.iconContainer {
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.header h1 {
+  color: #c0c0c0;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  font-size: 30px;
+}
+
+.logo {
+  color: #c0c0c0;
+  font-size: 30px !important;
+  padding: 15px 20px;
+}
