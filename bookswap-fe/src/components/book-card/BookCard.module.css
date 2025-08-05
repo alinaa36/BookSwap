@@ -1,0 +1,75 @@
+.bookCard {
+  display: flex;
+  flex-direction: column;
+  height: 350px;
+  width: 190px;
+  border-radius: 8px;
+  background: rgba(15, 20, 25, 0.8);
+  border: 1px solid rgba(192, 192, 192, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.bookCard p {
+  margin: 0;
+  padding: 2px;
+  font-size: 13px;
+}
+.bookCard h2 {
+  margin: 10px 0;
+  color: #c0c0c0;
+  padding-left: 10px;
+  font-size: 17px;
+  white-space: nowrap;          
+  overflow: hidden;            
+  text-overflow: ellipsis;
+
+  max-width: 100%;
+}
+
+
+.bookImageContainer {
+  padding: 10px;
+  padding-bottom: 0px;
+}
+
+.bookCover {
+  width: 170;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.bookAuthorContainer {
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+.author {
+  font-style: italic;
+  color: #6e748cd3;
+}
+
+.bookGenreContainer {
+  padding-left: 10px;
+}
+
+.genre {
+  display: inline-block;
+  background: rgba(70, 130, 180, 0.2);
+  color: #4682b4;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  margin-bottom: 15px;
+  border: 1px solid rgba(70, 130, 180, 0.4);
+  font-weight: 500;
+}
+
+.bookRatingContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 10px;
+}

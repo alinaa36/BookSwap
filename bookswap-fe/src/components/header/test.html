@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookVerse - Світ книг</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #0F1419, #1B2951, #2E3A59);
+            min-height: 100vh;
+            color: #E8E8E8;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: rgba(15, 20, 25, 0.8);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(192, 192, 192, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            color: #C0C0C0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #B8C5D1;
+            font-style: italic;
+            font-weight: normal;
+        }
+
+        .search-filters {
+            background: rgba(15, 20, 25, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(192, 192, 192, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .search-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 2;
+            padding: 15px 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            font-size: 16px;
+            background: rgba(20, 20, 20, 0.9);
+            color: #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #00BFFF;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+            transform: translateY(-1px);
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .filter-select {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background: rgba(20, 20, 20, 0.9);
+            color: #e0e0e0;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #00BFFF;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.4);
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .search-btn {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #00BFFF, #0080FF);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.3);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 191, 255, 0.5);
+            background: linear-gradient(45deg, #0080FF, #00BFFF);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .book-card {
+            background: rgba(15, 20, 25, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(192, 192, 192, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(192, 192, 192, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .book-card:hover::before {
+            left: 100%;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(192, 192, 192, 0.5);
+            box-shadow: 0 15px 35px rgba(70, 130, 180, 0.2);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #1B2951, #2E3A59, #4682B4);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #C0C0C0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(192, 192, 192, 0.3);
+        }
+
+        .book-cover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.1), rgba(70, 130, 180, 0.1));
+        }
+
+        .book-title {
+            font-size: 1.3rem;
+            color: #C0C0C0;
+            margin-bottom: 10px;
+            font-weight: bold;
+            line-height: 1.3;
+        }
+
+        .book-author {
+            color: #B8C5D1;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            font-style: italic;
+            font-weight: normal;
+        }
+
+        .book-genre {
+            display: inline-block;
+            background: rgba(70, 130, 180, 0.2);
+            color: #4682B4;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            border: 1px solid rgba(70, 130, 180, 0.4);
+            font-weight: 500;
+        }
+
+        .book-price {
+            font-size: 1.4rem;
+            color: #708090;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .book-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .star {
+            color: #FFD700;
+            font-size: 1.2rem;
+        }
+
+        .rating-text {
+            color: #B8C5D1;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #2E3A59, #4682B4);
+            border: 1px solid #C0C0C0;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .buy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(192, 192, 192, 0.2), transparent);
+            transition: left 0.4s ease;
+        }
+
+        .buy-btn:hover::before {
+            left: 100%;
+        }
+
+        .buy-btn:hover {
+            background: linear-gradient(45deg, #4682B4, #5F9EA0);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(70, 130, 180, 0.4);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            background: rgba(15, 20, 25, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(192, 192, 192, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: #C0C0C0;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            color: #4682B4;
+            font-size: 1.1rem;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .search-row {
+                flex-direction: column;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .books-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-book {
+            position: absolute;
+            color: rgba(192, 192, 192, 0.08);
+            font-size: 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-book" style="top: 10%; left: 5%; animation-delay: 0s;">📚</div>
+        <div class="floating-book" style="top: 20%; right: 10%; animation-delay: 1s;">📖</div>
+        <div class="floating-book" style="top: 60%; left: 8%; animation-delay: 2s;">📓</div>
+        <div class="floating-book" style="top: 70%; right: 15%; animation-delay: 3s;">📕</div>
+        <div class="floating-book" style="top: 40%; right: 5%; animation-delay: 4s;">📗</div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1>BookVerse</h1>
+            <p>Відкрийте світ незабутніх історій</p>
+        </header>
+
+        <div class="stats">
+            <div class="stat-item">
+                <span class="stat-number">15,247</span>
+                <div class="stat-label">Книг в каталозі</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">2,856</span>
+                <div class="stat-label">Авторів</div>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">98,432</span>
+                <div class="stat-label">Задоволених читачів</div>
+            </div>
+        </div>
+
+        <div class="search-filters">
+            <div class="search-row">
+                <input type="text" class="search-input" placeholder="Пошук книг за назвою або автором..." id="searchInput">
+                <select class="filter-select" id="genreFilter">
+                    <option value="">Всі жанри</option>
+                    <option value="fantasy">Фентезі</option>
+                    <option value="detective">Детектив</option>
+                    <option value="romance">Романтика</option>
+                    <option value="scifi">Наукова фантастика</option>
+                    <option value="history">Історія</option>
+                    <option value="biography">Біографія</option>
+                </select>
+                <select class="filter-select" id="priceFilter">
+                    <option value="">Всі ціни</option>
+                    <option value="0-200">До 200 грн</option>
+                    <option value="200-400">200-400 грн</option>
+                    <option value="400-600">400-600 грн</option>
+                    <option value="600+">Понад 600 грн</option>
+                </select>
+                <button class="search-btn" onclick="filterBooks()">🔍 Пошук</button>
+            </div>
+        </div>
+
+        <div class="books-grid" id="booksGrid">
+            <!-- Книги будуть додані через JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const books = [
+            {
+                title: "Гаррі Поттер і філософський камінь",
+                author: "Дж.К. Роулінг",
+                genre: "fantasy",
+                price: 320,
+                rating: 4.8,
+                reviews: 1250,
+                icon: "⚡"
+            },
+            {
+                title: "Убивство в Східному експресі",
+                author: "Агата Крісті",
+                genre: "detective",
+                price: 280,
+                rating: 4.6,
+                reviews: 890,
+                icon: "🔍"
+            },
+            {
+                title: "Гордість і упередження",
+                author: "Джейн Остін",
+                genre: "romance",
+                price: 350,
+                rating: 4.7,
+                reviews: 2100,
+                icon: "💕"
+            },
+            {
+                title: "Дюна",
+                author: "Френк Герберт",
+                genre: "scifi",
+                price: 420,
+                rating: 4.5,
+                reviews: 1580,
+                icon: "🌌"
+            },
+            {
+                title: "Сапієнс",
+                author: "Юваль Ной Харарі",
+                genre: "history",
+                price: 380,
+                rating: 4.4,
+                reviews: 3200,
+                icon: "🧠"
+            },
+            {
+                title: "Стів Джобс",
+                author: "Волтер Айзексон",
+                genre: "biography",
+                price: 450,
+                rating: 4.3,
+                reviews: 950,
+                icon: "🍎"
+            },
+            {
+                title: "Володар кілець",
+                author: "Дж.Р.Р. Толкін",
+                genre: "fantasy",
+                price: 520,
+                rating: 4.9,
+                reviews: 5400,
+                icon: "💍"
+            },
+            {
+                title: "Шерлок Холмс",
+                author: "Артур Конан Дойл",
+                genre: "detective",
+                price: 290,
+                rating: 4.7,
+                reviews: 1800,
+                icon: "🕵️"
+            },
+            {
+                title: "Джейн Ейр",
+                author: "Шарлотта Бронте",
+                genre: "romance",
+                price: 310,
+                rating: 4.5,
+                reviews: 1200,
+                icon: "🌹"
+            },
+            {
+                title: "Фундація",
+                author: "Айзек Азімов",
+                genre: "scifi",
+                price: 390,
+                rating: 4.6,
+                reviews: 2200,
+                icon: "🚀"
+            },
+            {
+                title: "Друга світова війна",
+                author: "Ентоні Бівор",
+                genre: "history",
+                price: 480,
+                rating: 4.4,
+                reviews: 750,
+                icon: "⚔️"
+            },
+            {
+                title: "Еінштейн",
+                author: "Волтер Айзексон",
+                genre: "biography",
+                price: 420,
+                rating: 4.5,
+                reviews: 680,
+                icon: "🧮"
+            },
+            {
+                title: "Володар кілець",
+                author: "Дж.Р.Р. Толкін",
+                genre: "fantasy",
+                price: 520,
+                rating: 4.9,
+                reviews: 5400,
+                icon: "💍"
+            },
+            {
+                title: "Шерлок Холмс",
+                author: "Артур Конан Дойл",
+                genre: "detective",
+                price: 290,
+                rating: 4.7,
+                reviews: 1800,
+                icon: "🕵️"
+            },
+            {
+                title: "Джейн Ейр",
+                author: "Шарлотта Бронте",
+                genre: "romance",
+                price: 310,
+                rating: 4.5,
+                reviews: 1200,
+                icon: "🌹"
+            },
+            {
+                title: "Фундація",
+                author: "Айзек Азімов",
+                genre: "scifi",
+                price: 390,
+                rating: 4.6,
+                reviews: 2200,
+                icon: "🚀"
+            },
+            {
+                title: "Друга світова війна",
+                author: "Ентоні Бівор",
+                genre: "history",
+                price: 480,
+                rating: 4.4,
+                reviews: 750,
+                icon: "⚔️"
+            },
+            {
+                title: "Еінштейн",
+                author: "Волтер Айзексон",
+                genre: "biography",
+                price: 420,
+                rating: 4.5,
+                reviews: 680,
+                icon: "🧮"
+            },
+            {
+                title: "Володар кілець",
+                author: "Дж.Р.Р. Толкін",
+                genre: "fantasy",
+                price: 520,
+                rating: 4.9,
+                reviews: 5400,
+                icon: "💍"
+            },
+            {
+                title: "Шерлок Холмс",
+                author: "Артур Конан Дойл",
+                genre: "detective",
+                price: 290,
+                rating: 4.7,
+                reviews: 1800,
+                icon: "🕵️"
+            },
+            {
+                title: "Джейн Ейр",
+                author: "Шарлотта Бронте",
+                genre: "romance",
+                price: 310,
+                rating: 4.5,
+                reviews: 1200,
+                icon: "🌹"
+            },
+            {
+                title: "Фундація",
+                author: "Айзек Азімов",
+                genre: "scifi",
+                price: 390,
+                rating: 4.6,
+                reviews: 2200,
+                icon: "🚀"
+            },
+            {
+                title: "Друга світова війна",
+                author: "Ентоні Бівор",
+                genre: "history",
+                price: 480,
+                rating: 4.4,
+                reviews: 750,
+                icon: "⚔️"
+            },
+            {
+                title: "Еінштейн",
+                author: "Волтер Айзексон",
+                genre: "biography",
+                price: 420,
+                rating: 4.5,
+                reviews: 680,
+                icon: "🧮"
+            },
+            {
+                title: "Володар кілець",
+                author: "Дж.Р.Р. Толкін",
+                genre: "fantasy",
+                price: 520,
+                rating: 4.9,
+                reviews: 5400,
+                icon: "💍"
+            },
+            {
+                title: "Шерлок Холмс",
+                author: "Артур Конан Дойл",
+                genre: "detective",
+                price: 290,
+                rating: 4.7,
+                reviews: 1800,
+                icon: "🕵️"
+            },
+            {
+                title: "Джейн Ейр",
+                author: "Шарлотта Бронте",
+                genre: "romance",
+                price: 310,
+                rating: 4.5,
+                reviews: 1200,
+                icon: "🌹"
+            },
+            {
+                title: "Фундація",
+                author: "Айзек Азімов",
+                genre: "scifi",
+                price: 390,
+                rating: 4.6,
+                reviews: 2200,
+                icon: "🚀"
+            },
+            {
+                title: "Друга світова війна",
+                author: "Ентоні Бівор",
+                genre: "history",
+                price: 480,
+                rating: 4.4,
+                reviews: 750,
+                icon: "⚔️"
+            },
+            {
+                title: "Еінштейн",
+                author: "Волтер Айзексон",
+                genre: "biography",
+                price: 420,
+                rating: 4.5,
+                reviews: 680,
+                icon: "🧮"
+            }
+        ];
+
+        function createBookCard(book) {
+            const stars = "★".repeat(Math.floor(book.rating)) + "☆".repeat(5 - Math.floor(book.rating));
+            
+            return `
+                <div class="book-card">
+                    <div class="book-cover">${book.icon}</div>
+                    <h3 class="book-title">${book.title}</h3>
+                    <p class="book-author">${book.author}</p>
+                    <span class="book-genre">${getGenreText(book.genre)}</span>
+                    <div class="book-price">${book.price} грн</div>
+                    <div class="book-rating">
+                        <span class="stars">${stars}</span>
+                        <span class="rating-text">${book.rating} (${book.reviews} відгуків)</span>
+                    </div>
+                    <button class="buy-btn" onclick="buyBook('${book.title}')">Купити</button>
+                </div>
+            `;
+        }
+
+        function getGenreText(genre) {
+            const genres = {
+                'fantasy': 'Фентезі',
+                'detective': 'Детектив',
+                'romance': 'Романтика',
+                'scifi': 'Наукова фантастика',
+                'history': 'Історія',
+                'biography': 'Біографія'
+            };
+            return genres[genre] || genre;
+        }
+
+        function displayBooks(booksToShow) {
+            const grid = document.getElementById('booksGrid');
+            grid.innerHTML = booksToShow.map(book => createBookCard(book)).join('');
+        }
+
+        function filterBooks() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const genreFilter = document.getElementById('genreFilter').value;
+            const priceFilter = document.getElementById('priceFilter').value;
+
+            let filteredBooks = books.filter(book => {
+                const matchesSearch = book.title.toLowerCase().includes(searchTerm) || 
+                                    book.author.toLowerCase().includes(searchTerm);
+                const matchesGenre = !genreFilter || book.genre === genreFilter;
+                
+                let matchesPrice = true;
+                if (priceFilter) {
+                    if (priceFilter === '0-200') matchesPrice = book.price < 200;
+                    else if (priceFilter === '200-400') matchesPrice = book.price >= 200 && book.price < 400;
+                    else if (priceFilter === '400-600') matchesPrice = book.price >= 400 && book.price < 600;
+                    else if (priceFilter === '600+') matchesPrice = book.price >= 600;
+                }
+
+                return matchesSearch && matchesGenre && matchesPrice;
+            });
+
+            displayBooks(filteredBooks);
+        }
+
+        function buyBook(title) {
+            alert(`Дякуємо за покупку "${title}"! Книга додана до кошика.`);
+        }
+
+        // Пошук в реальному часі
+        document.getElementById('searchInput').addEventListener('input', filterBooks);
+        document.getElementById('genreFilter').addEventListener('change', filterBooks);
+        document.getElementById('priceFilter').addEventListener('change', filterBooks);
+
+        // Початкове відображення всіх книг
+        displayBooks(books);
+    </script>
+</body>
+</html>

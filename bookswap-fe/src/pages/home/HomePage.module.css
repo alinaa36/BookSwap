@@ -1,0 +1,12 @@
+body {
+  font-family: 'Trebuchet MS', sans-serif;
+  background: linear-gradient(135deg, #0f1419, #1b2951, #2e3a59);
+  min-height: 100vh;
+  color: #e8e8e8;
+}
+.homePage {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  place-items: center;
+  margin-top: 100px;
+}
